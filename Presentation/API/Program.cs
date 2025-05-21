@@ -16,7 +16,7 @@ public static class Program
 
         builder.Host.AddSerilogSupport();
 
-        //builder.Services.AddMessagingSupport(typeof(IApplicationPointer));
+        builder.Services.AddMessagingSupport(typeof(IApplicationPointer));
         builder.Services.AddIdentityPrepration();
         builder.Services.AddIdentitySupport();
 
@@ -28,7 +28,11 @@ public static class Program
             .AddAuthenticationJwtBearer(o => o.SigningKey = builder.Configuration["Auth:JWTSigningKey"])
             .AddAuthorization()
             .AddFastEndpoints()
-            .SwaggerDocument(o => o.AutoTagPathSegmentIndex = 2);
+            .SwaggerDocument(o =>
+            {
+                o.AutoTagPathSegmentIndex = 2;
+                o.ShortSchemaNames = true;
+            });
 
         WebApplication app = builder.Build();
 

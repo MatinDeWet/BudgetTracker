@@ -9,7 +9,7 @@ public partial class UserRefreshTokenConfiguration : IEntityTypeConfiguration<Us
     {
         entity.ToTable(nameof(UserRefreshToken));
 
-        entity.HasNoKey();
+        entity.HasKey(x => x.Id);
 
         entity.HasIndex(x => x.UserID);
 

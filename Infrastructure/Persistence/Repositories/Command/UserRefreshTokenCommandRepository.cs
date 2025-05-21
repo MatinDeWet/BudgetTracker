@@ -15,6 +15,7 @@ public class UserRefreshTokenCommandRepository : JudgedCommands<BudgetContext>, 
     {
         var refreshToken = new UserRefreshToken
         {
+            Id = Guid.CreateVersion7(),
             UserID = Convert.ToInt32(userId, System.Globalization.CultureInfo.InvariantCulture),
             Token = token,
             ExpiryDate = expirationDate,

@@ -1,5 +1,9 @@
-﻿using Application.Repositories.Command;
+﻿using System.Security.Claims;
+using Application.Common.Messaging;
+using Application.Features.AuthFeatures.UserClaim;
+using Application.Repositories.Command;
 using Application.Repositories.Query;
+using Ardalis.Result;
 using FastEndpoints;
 using FastEndpoints.Security;
 
@@ -9,15 +13,17 @@ public class UserTokenService : RefreshTokenService<TokenRequest, ApplicationTok
 {
     private readonly IUserRefreshTokenCommandRepository _commandRepo;
     private readonly IUserRefreshTokenQueryRepository _queryRepo;
+    private readonly IQueryHandler<UserClaimRequest, List<Claim>> _userClaimHandler;
 
-    public UserTokenService(IConfiguration config, IUserRefreshTokenCommandRepository commandRepo, IUserRefreshTokenQueryRepository queryRepo)
+    public UserTokenService(IConfiguration config, IUserRefreshTokenCommandRepository commandRepo, IUserRefreshTokenQueryRepository queryRepo, IQueryHandler<UserClaimRequest, List<Claim>> userClaimHandler)
     {
         _commandRepo = commandRepo;
         _queryRepo = queryRepo;
+        _userClaimHandler = userClaimHandler;
 
         Setup(x =>
         {
-            x.TokenSigningKey = config["JWTSigningKey"];
+            x.TokenSigningKey = config["Auth:JWTSigningKey"];
             x.AccessTokenValidity = TimeSpan.FromMinutes(config.GetValue<int>("Auth:AccessTokenValidityMinutes"));
             x.RefreshTokenValidity = TimeSpan.FromMinutes(config.GetValue<int>("Auth:RefreshTokenValidityMinutes"));
             x.Endpoint("/user/auth/refresh-token", ep => ep.Summary(s => s.Description = "this is the refresh token endpoint"));
@@ -37,8 +43,13 @@ public class UserTokenService : RefreshTokenService<TokenRequest, ApplicationTok
         }
     }
 
-    public override Task SetRenewalPrivilegesAsync(TokenRequest request, UserPrivileges privileges)
+    public override async Task SetRenewalPrivilegesAsync(TokenRequest request, UserPrivileges privileges)
     {
-        return Task.CompletedTask;
+        Result<List<Claim>> result = await _userClaimHandler.Handle(new UserClaimRequest(Convert.ToInt32(request.UserId, System.Globalization.CultureInfo.InvariantCulture)), CancellationToken.None);
+
+        if (result.IsSuccess)
+        {
+            privileges.Claims.AddRange(result.Value);
+        }
     }
 }

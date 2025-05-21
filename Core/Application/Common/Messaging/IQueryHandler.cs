@@ -1,4 +1,4 @@
-﻿using Application.Common.ResultSupport;
+﻿using Ardalis.Result;
 using Domain.Common.Messaging;
 
 namespace Application.Common.Messaging;
