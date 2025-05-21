@@ -1,4 +1,5 @@
-﻿using Application.Common.IdentitySupport;
+﻿using Application.Behaviors;
+using Application.Common.IdentitySupport;
 using Application.Common.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,6 +18,10 @@ public static class ApplicationDependencyInjection
             .AddClasses(classes => classes.AssignableTo(typeof(ICommandHandler<,>)), publicOnly: false)
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
+
+        services.Decorate(typeof(IQueryHandler<,>), typeof(LoggingDecorator.QueryHandler<,>));
+        services.Decorate(typeof(ICommandHandler<,>), typeof(LoggingDecorator.CommandHandler<,>));
+        services.Decorate(typeof(ICommandHandler<>), typeof(LoggingDecorator.CommandBaseHandler<>));
 
         services.Scan(scan => scan.FromAssembliesOf(assemplyPointer)
             .AddClasses(classes => classes.AssignableTo(typeof(IDomainEventHandler<>)), publicOnly: false)
