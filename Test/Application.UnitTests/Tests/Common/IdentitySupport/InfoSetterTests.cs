@@ -16,14 +16,14 @@ public class InfoSetterTests
         var infoSetter = new InfoSetter();
         var initialClaims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, "InitialUser")
+            new (ClaimTypes.Name, "InitialUser")
         };
         infoSetter.AddRange(initialClaims);
 
         var newClaims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, "NewUser"),
-            new Claim(ClaimTypes.Role, "Admin")
+            new (ClaimTypes.Name, "NewUser"),
+            new (ClaimTypes.Role, "Admin")
         };
 
         // Act
@@ -59,9 +59,9 @@ public class InfoSetterTests
         var infoSetter = new InfoSetter();
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, "TestUser"),
-            new Claim(ClaimTypes.Role, "Admin"),
-            new Claim(ClaimTypes.NameIdentifier, "123")
+            new (ClaimTypes.Name, "TestUser"),
+            new (ClaimTypes.Role, "Admin"),
+            new (ClaimTypes.NameIdentifier, "123")
         };
 
         // Act

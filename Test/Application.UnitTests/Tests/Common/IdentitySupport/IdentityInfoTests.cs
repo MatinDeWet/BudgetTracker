@@ -15,10 +15,10 @@ public class IdentityInfoTests
     {
         // Arrange
         var infoSetter = new InfoSetter();
-        infoSetter.SetUser(new List<Claim>
-        {
-            new Claim(ClaimTypes.NameIdentifier, "123")
-        });
+        infoSetter.SetUser(
+        [
+            new (ClaimTypes.NameIdentifier, "123")
+        ]);
         var identityInfo = new IdentityInfo(infoSetter);
 
         // Act
@@ -33,10 +33,10 @@ public class IdentityInfoTests
     {
         // Arrange
         var infoSetter = new InfoSetter();
-        infoSetter.SetUser(new List<Claim>
-        {
-            new Claim(ClaimTypes.NameIdentifier, "invalid")
-        });
+        infoSetter.SetUser(
+        [
+            new (ClaimTypes.NameIdentifier, "invalid")
+        ]);
         var identityInfo = new IdentityInfo(infoSetter);
 
         // Act
@@ -51,7 +51,7 @@ public class IdentityInfoTests
     {
         // Arrange
         var infoSetter = new InfoSetter();
-        infoSetter.SetUser(new List<Claim>());
+        infoSetter.SetUser([]);
         var identityInfo = new IdentityInfo(infoSetter);
 
         // Act
@@ -66,10 +66,10 @@ public class IdentityInfoTests
     {
         // Arrange
         var infoSetter = new InfoSetter();
-        infoSetter.SetUser(new List<Claim>
-        {
-            new Claim(ClaimTypes.Role, "Admin")
-        });
+        infoSetter.SetUser(
+        [
+            new (ClaimTypes.Role, "Admin")
+        ]);
         var identityInfo = new IdentityInfo(infoSetter);
 
         // Act
@@ -84,10 +84,10 @@ public class IdentityInfoTests
     {
         // Arrange
         var infoSetter = new InfoSetter();
-        infoSetter.SetUser(new List<Claim>
-        {
+        infoSetter.SetUser(
+        [
             new Claim(ClaimTypes.Role, ApplicationRoleEnum.SuperAdmin.ToString())
-        });
+        ]);
         var identityInfo = new IdentityInfo(infoSetter);
 
         // Act
@@ -104,10 +104,10 @@ public class IdentityInfoTests
     {
         // Arrange
         var infoSetter = new InfoSetter();
-        infoSetter.SetUser(new List<Claim>
-        {
-            new Claim(ClaimTypes.Role, "None")
-        });
+        infoSetter.SetUser(
+            [
+                new Claim(ClaimTypes.Role, "None")
+            ]);
         var identityInfo = new IdentityInfo(infoSetter);
 
         // Act
@@ -122,10 +122,10 @@ public class IdentityInfoTests
     {
         // Arrange
         var infoSetter = new InfoSetter();
-        infoSetter.SetUser(new List<Claim>
-        {
+        infoSetter.SetUser(
+        [
             new Claim(ClaimTypes.Name, "TestUser")
-        });
+        ]);
         var identityInfo = new IdentityInfo(infoSetter);
 
         // Act
@@ -140,7 +140,7 @@ public class IdentityInfoTests
     {
         // Arrange
         var infoSetter = new InfoSetter();
-        infoSetter.SetUser(new List<Claim>());
+        infoSetter.SetUser([]);
         var identityInfo = new IdentityInfo(infoSetter);
 
         // Act
@@ -155,10 +155,10 @@ public class IdentityInfoTests
     {
         // Arrange
         var infoSetter = new InfoSetter();
-        infoSetter.SetUser(new List<Claim>
-        {
+        infoSetter.SetUser(
+        [
             new Claim(ClaimTypes.Name, "TestUser")
-        });
+        ]);
         var identityInfo = new IdentityInfo(infoSetter);
 
         // Act
@@ -173,7 +173,7 @@ public class IdentityInfoTests
     {
         // Arrange
         var infoSetter = new InfoSetter();
-        infoSetter.SetUser(new List<Claim>());
+        infoSetter.SetUser([]);
         var identityInfo = new IdentityInfo(infoSetter);
 
         // Act
