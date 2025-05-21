@@ -35,7 +35,7 @@ jobs:
       run: dotnet restore ./BudgetTracker.sln
       
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build ./BudgetTracker.sln --no-restore
       
     - name: Test with coverage
       run: |
