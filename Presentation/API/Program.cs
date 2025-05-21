@@ -2,7 +2,9 @@ using Application;
 using FastEndpoints;
 using FastEndpoints.Security;
 using FastEndpoints.Swagger;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
+using Persistence.Data.Context;
 
 namespace API;
 
@@ -37,6 +39,18 @@ public static class Program
            .UseFastEndpoints()
            .UseSwaggerGen();
 
+        ApplyDbMigrations(app);
+
         app.Run();
+    }
+
+    internal static void ApplyDbMigrations(IApplicationBuilder app)
+    {
+        using IServiceScope serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>()!.CreateScope();
+
+        if (serviceScope.ServiceProvider.GetRequiredService<BudgetContext>().Database.GetPendingMigrations().Any())
+        {
+            serviceScope.ServiceProvider.GetRequiredService<BudgetContext>().Database.Migrate();
+        }
     }
 }

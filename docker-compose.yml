@@ -1,0 +1,17 @@
+services:
+  database:
+    image: postgres
+
+  seq:
+    image: datalust/seq
+
+  api:
+    image: ${DOCKER_REGISTRY-}api
+    container_name: web-api
+    build:
+      context: .
+      dockerfile: Presentation/API/Dockerfile
+
+volumes:
+  postgres_budgettracker:
+  seq_storage:
