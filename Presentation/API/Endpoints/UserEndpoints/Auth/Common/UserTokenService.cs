@@ -26,7 +26,7 @@ public class UserTokenService : RefreshTokenService<TokenRequest, ApplicationTok
             x.TokenSigningKey = config["Auth:JWTSigningKey"];
             x.AccessTokenValidity = TimeSpan.FromMinutes(config.GetValue<int>("Auth:AccessTokenValidityMinutes"));
             x.RefreshTokenValidity = TimeSpan.FromMinutes(config.GetValue<int>("Auth:RefreshTokenValidityMinutes"));
-            x.Endpoint("/user/auth/refresh-token", ep => ep.Summary(s => s.Description = "this is the refresh token endpoint"));
+            x.Endpoint("auth/refresh-token", ep => ep.Summary(s => s.Description = "this is the refresh token endpoint"));
         });
     }
 

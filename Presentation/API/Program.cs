@@ -30,7 +30,7 @@ public static class Program
             .AddFastEndpoints()
             .SwaggerDocument(o =>
             {
-                o.AutoTagPathSegmentIndex = 2;
+                o.AutoTagPathSegmentIndex = 1;
                 o.ShortSchemaNames = true;
             });
 
