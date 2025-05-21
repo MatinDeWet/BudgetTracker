@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Application.Common.IdentitySupport;
+using Application.Common.Messaging;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Application.Common.Messaging;
-public static class MessagingDependencyInjection
+namespace Application;
+public static class ApplicationDependencyInjection
 {
     public static IServiceCollection AddMessagingSupport(this IServiceCollection services, Type assemplyPointer)
     {
@@ -20,6 +22,14 @@ public static class MessagingDependencyInjection
             .AddClasses(classes => classes.AssignableTo(typeof(IDomainEventHandler<>)), publicOnly: false)
             .AsImplementedInterfaces()
             .WithScopedLifetime());
+
+        return services;
+    }
+
+    public static IServiceCollection AddIdentitySupport(this IServiceCollection services)
+    {
+        services.AddScoped<IIdentityInfo, IdentityInfo>();
+        services.AddScoped<IInfoSetter, InfoSetter>();
 
         return services;
     }
