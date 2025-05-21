@@ -1,0 +1,9 @@
+﻿using Application.Common.ResultSupport;
+using Domain.Common.Messaging;
+
+namespace Application.Common.Messaging;
+public interface IQueryHandler<in TQuery, TResponse>
+    where TQuery : IQuery<TResponse>
+{
+    Task<Result<TResponse>> Handle(TQuery query, CancellationToken cancellationToken);
+}
