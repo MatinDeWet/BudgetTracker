@@ -8,6 +8,10 @@ public class Account : Entity<Guid>
 
     public string Name { get; private set; } = string.Empty;
 
+    public decimal Balance { get; private set; }
+
+    public virtual ICollection<Transaction> Transactions { get; set; } = new HashSet<Transaction>();
+
     public static Account Create(int userId, string name)
     {
         return new Account

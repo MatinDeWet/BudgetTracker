@@ -15,6 +15,10 @@ public partial class AccountConfiguration : IEntityTypeConfiguration<Account>
             .IsRequired()
             .HasMaxLength(64);
 
+        entity.Property(x => x.Balance)
+            .IsRequired()
+            .HasPrecision(18, 2);
+
         entity.HasOne(x => x.User)
             .WithMany(x => x.Accounts)
             .HasForeignKey(x => x.UserId)

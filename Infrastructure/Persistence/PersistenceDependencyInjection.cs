@@ -1,12 +1,15 @@
 ﻿using System.Reflection;
 using Application.Common.Repository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence.Common.DatabaseSchemas;
+using Persistence.Common.DomainEvents;
 using Persistence.Common.Repository;
 using Persistence.Data.Context;
+using Persistence.Data.Inteceptors;
 
 namespace Persistence;
 public static class PersistenceDependencyInjection
@@ -30,8 +33,13 @@ public static class PersistenceDependencyInjection
 
     public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration, bool IsDevelopment)
     {
-        services.AddDbContext<BudgetContext>(options =>
+        services.AddTransient<IDomainEventsDispatcher, DomainEventsDispatcher>();
+        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
+
+        services.AddDbContext<BudgetContext>((sp, options) =>
             {
+                options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
+
                 options.UseNpgsql(
                     configuration.GetConnectionString("DefaultConnection"),
                     opt =>
