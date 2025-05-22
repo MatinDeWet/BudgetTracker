@@ -36,11 +36,19 @@ public class Transaction : Aggregate<Guid>
 
     public void Update(string description, decimal amount, DateTime date)
     {
-        AddDomainEvent(new TransactionUpdatedEvent(AccountId, Amount, amount));
+        if (amount != Amount)
+        {
+            AddDomainEvent(new TransactionUpdatedEvent(AccountId, Amount, amount));
+        }
 
         Description = description;
         Amount = amount;
         Direction = amount >= 0 ? TransactionDirectionEnum.Income : TransactionDirectionEnum.Expense;
         Date = date;
+    }
+
+    public void Delete()
+    {
+        AddDomainEvent(new TransactionDeletedEvent(AccountId, Amount));
     }
 }
