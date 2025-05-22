@@ -12,4 +12,6 @@ internal sealed class AccountQueryRepository : JudgedQueries<BudgetContext>, IAc
     }
 
     public IQueryable<Account> Accounts => Secure<Account>();
+
+    public IQueryable<Account> InsecureAccounts => _context.Set<Account>();
 }

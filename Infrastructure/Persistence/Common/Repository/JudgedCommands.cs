@@ -6,8 +6,9 @@ using Microsoft.EntityFrameworkCore;
 namespace Persistence.Common.Repository;
 public class JudgedCommands<TCtx> : ISecureCommand where TCtx : DbContext
 {
-    private readonly TCtx _context;
-    private readonly IIdentityInfo _info;
+    protected readonly TCtx _context;
+    protected readonly IIdentityInfo _info;
+
     private readonly IEnumerable<IProtected> _protection;
 
     public JudgedCommands(TCtx context, IIdentityInfo info, IEnumerable<IProtected> protection)

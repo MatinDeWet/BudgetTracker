@@ -10,7 +10,7 @@ internal sealed class AccountTransactionDeletedEventHandler(IAccountQueryReposit
 {
     public async Task Handle(TransactionDeletedEvent domainEvent, CancellationToken cancellationToken)
     {
-        Account? account = await queryRepo.Accounts
+        Account? account = await queryRepo.InsecureAccounts
             .Where(a => a.Id == domainEvent.AccountId)
             .FirstOrDefaultAsync(cancellationToken);
 
@@ -21,6 +21,8 @@ internal sealed class AccountTransactionDeletedEventHandler(IAccountQueryReposit
 
         account.UpdateBalance(-domainEvent.Amount);
 
-        await commandRepo.UpdateAsync(account, true, cancellationToken);
+        commandRepo.InsecureUpdate(account);
+
+        await commandRepo.SaveAsync(cancellationToken);
     }
 }

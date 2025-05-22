@@ -32,7 +32,7 @@ public class DispatchDomainEventsInterceptor(IDomainEventsDispatcher domainEvent
             .Select(a => a.Entity)
             .SelectMany(entity =>
             {
-                IReadOnlyList<IDomainEvent> domainEvents = entity.DomainEvents;
+                IReadOnlyList<IDomainEvent> domainEvents = entity.DomainEvents.ToList();
                 entity.ClearDomainEvents();
                 return domainEvents;
             })
