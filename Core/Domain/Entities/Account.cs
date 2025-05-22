@@ -26,4 +26,9 @@ public class Account : Entity<Guid>
     {
         Name = name;
     }
+
+    public void UpdateBalance(decimal amount)
+    {
+        Balance += amount;
+    }
 }
