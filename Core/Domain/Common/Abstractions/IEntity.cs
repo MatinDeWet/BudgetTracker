@@ -1,7 +1,7 @@
 ﻿namespace Domain.Common.Abstractions;
 public interface IEntity<T>
 {
-    T Id { get; set; }
+    T Id { get; }
 
-    DateTimeOffset DateCreated { get; set; }
+    DateTimeOffset DateCreated { get; }
 }

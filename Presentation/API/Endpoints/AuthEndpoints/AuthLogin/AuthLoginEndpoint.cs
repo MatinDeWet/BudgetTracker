@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using API.Common.Extensions;
-using API.Endpoints.UserEndpoints.Auth.Common;
+using API.Endpoints.AuthEndpoints.Common;
 using Application.Common.Messaging;
 using Application.Features.AuthFeatures.UserClaim;
 using Ardalis.Result;
@@ -8,7 +8,7 @@ using Domain.Entities;
 using FastEndpoints;
 using Microsoft.AspNetCore.Identity;
 
-namespace API.Endpoints.UserEndpoints.Auth.AuthLogin;
+namespace API.Endpoints.AuthEndpoints.AuthLogin;
 
 public class AuthLoginEndpoint(UserManager<ApplicationUser> userManager, IQueryHandler<UserClaimRequest, List<Claim>> userClaimHandler) : Endpoint<AuthLoginRequest, ApplicationTokenResponse>
 {
@@ -36,6 +36,6 @@ public class AuthLoginEndpoint(UserManager<ApplicationUser> userManager, IQueryH
 
         Result<List<Claim>> result = await userClaimHandler.Handle(new UserClaimRequest(user.Id), ct);
 
-        await this.SendResponse(result, async claims => Response = await CreateTokenWith<UserTokenService>(user.Id.ToString(System.Globalization.CultureInfo.InvariantCulture), options => options.Claims.AddRange(claims.Value)));
+        await this.SendResponseAsync(result, async claims => await CreateTokenWith<UserTokenService>(user.Id.ToString(System.Globalization.CultureInfo.InvariantCulture), options => options.Claims.AddRange(claims.Value)));
     }
 }

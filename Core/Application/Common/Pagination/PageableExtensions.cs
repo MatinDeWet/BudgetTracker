@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Common.Pagination;
@@ -115,6 +110,7 @@ public static class PageableExtensions
     public static Task<PageableResponse<T>> ToPageableListAsync<T, TKey>(
         this IQueryable<T> query,
         Expression<Func<T, TKey>> orderKeySelector,
+        OrderDirectionEnum orderDirection,
         PageableRequest request,
         CancellationToken cancellationToken)
     {
@@ -127,7 +123,7 @@ public static class PageableExtensions
 
         ArgumentNullException.ThrowIfNull(orderKeySelector, nameof(orderKeySelector));
 
-        if (request.OrderDirection == OrderDirectionEnum.Ascending)
+        if (orderDirection == OrderDirectionEnum.Ascending)
         {
             return query.OrderBy(orderKeySelector).ToPageableListAsync(request, cancellationToken);
         }

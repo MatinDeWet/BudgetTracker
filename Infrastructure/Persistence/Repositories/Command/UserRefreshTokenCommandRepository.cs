@@ -13,13 +13,7 @@ public class UserRefreshTokenCommandRepository : JudgedCommands<BudgetContext>, 
 
     public async Task StoreToken(string userId, string token, DateTime expirationDate)
     {
-        var refreshToken = new UserRefreshToken
-        {
-            Id = Guid.CreateVersion7(),
-            UserID = Convert.ToInt32(userId, System.Globalization.CultureInfo.InvariantCulture),
-            Token = token,
-            ExpiryDate = expirationDate,
-        };
+        var refreshToken = UserRefreshToken.Create(Convert.ToInt32(userId, System.Globalization.CultureInfo.InvariantCulture), token, expirationDate);
 
         await InsertAsync(refreshToken, true, CancellationToken.None);
     }

@@ -2,7 +2,7 @@
 using FastEndpoints;
 using FluentValidation;
 
-namespace API.Endpoints.UserEndpoints.Auth.AuthRegister;
+namespace API.Endpoints.AuthEndpoints.AuthRegister;
 
 public class AuthRegisterRequestValidator : Validator<AuthRegisterRequest>
 {

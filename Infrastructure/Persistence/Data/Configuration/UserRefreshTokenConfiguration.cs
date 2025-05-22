@@ -16,6 +16,11 @@ public partial class UserRefreshTokenConfiguration : IEntityTypeConfiguration<Us
         entity.HasIndex(x => x.ExpiryDate)
             .IsDescending(false);
 
+        entity.HasOne(x => x.User)
+            .WithMany(x => x.RefreshTokens)
+            .HasForeignKey(x => x.UserID)
+            .OnDelete(DeleteBehavior.Cascade);
+
         OnConfigurePartial(entity);
     }
     partial void OnConfigurePartial(EntityTypeBuilder<UserRefreshToken> entity);

@@ -1,4 +1,4 @@
-﻿namespace API.Endpoints.UserEndpoints.Auth.AuthRegister;
+﻿namespace API.Endpoints.AuthEndpoints.AuthRegister;
 
 public class AuthRegisterRequest
 {

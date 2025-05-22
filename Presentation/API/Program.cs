@@ -1,3 +1,4 @@
+using API.Common.Filters;
 using Application;
 using FastEndpoints;
 using FastEndpoints.Security;
@@ -40,7 +41,7 @@ public static class Program
 
         app.UseAuthentication()
            .UseAuthorization()
-           .UseFastEndpoints()
+           .UseFastEndpoints(c => c.Endpoints.Configurator = ep => ep.Options(b => b.AddEndpointFilter<IdentityInfoFilter>()))
            .UseSwaggerGen();
 
         ApplyDbMigrations(app);

@@ -1,6 +1,6 @@
 ﻿using FastEndpoints.Security;
 
-namespace API.Endpoints.UserEndpoints.Auth.Common;
+namespace API.Endpoints.AuthEndpoints.Common;
 
 public class ApplicationTokenResponse : TokenResponse
 {

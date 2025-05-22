@@ -2,7 +2,7 @@
 using FastEndpoints;
 using FluentValidation;
 
-namespace API.Endpoints.UserEndpoints.Auth.AuthLogin;
+namespace API.Endpoints.AuthEndpoints.AuthLogin;
 
 public class AuthLoginRequestValidator : Validator<AuthLoginRequest>
 {

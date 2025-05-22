@@ -7,7 +7,7 @@ using Ardalis.Result;
 using FastEndpoints;
 using FastEndpoints.Security;
 
-namespace API.Endpoints.UserEndpoints.Auth.Common;
+namespace API.Endpoints.AuthEndpoints.Common;
 
 public class UserTokenService : RefreshTokenService<TokenRequest, ApplicationTokenResponse>
 {

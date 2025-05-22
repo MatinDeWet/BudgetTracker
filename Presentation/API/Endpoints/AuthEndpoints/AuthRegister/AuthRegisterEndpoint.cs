@@ -2,7 +2,7 @@
 using FastEndpoints;
 using Microsoft.AspNetCore.Identity;
 
-namespace API.Endpoints.UserEndpoints.Auth.AuthRegister;
+namespace API.Endpoints.AuthEndpoints.AuthRegister;
 
 public class AuthRegisterEndpoint(UserManager<ApplicationUser> userManager) : Endpoint<AuthRegisterRequest>
 {

@@ -282,7 +282,7 @@ public class PageableExtensionsTests
             _entities.ToPageableListAsync(request, CancellationToken.None));
 
         // Then test with KeySelector
-        PageableResponse<TestEntity> result = await _entities.ToPageableListAsync(e => e.CreatedDate, request, CancellationToken.None);
+        PageableResponse<TestEntity> result = await _entities.ToPageableListAsync(e => e.CreatedDate, OrderDirectionEnum.Ascending, request, CancellationToken.None);
 
         // Assert data is ordered by CreatedDate
         var data = result.Data.ToList();
@@ -305,7 +305,7 @@ public class PageableExtensionsTests
         };
 
         // Act - provide a different KeySelector than OrderBy
-        PageableResponse<TestEntity> result = await _entities.ToPageableListAsync(e => e.Id, request, CancellationToken.None);
+        PageableResponse<TestEntity> result = await _entities.ToPageableListAsync(e => e.Id, OrderDirectionEnum.Ascending, request, CancellationToken.None);
 
         // Assert data is ordered by Name (from OrderBy), not Id (from KeySelector)
         var data = result.Data.ToList();
@@ -329,7 +329,7 @@ public class PageableExtensionsTests
 
         // Act & Assert
         await Assert.ThrowsAsync<ArgumentNullException>(() =>
-            _entities.ToPageableListAsync<TestEntity, int>(null!, request, CancellationToken.None));
+            _entities.ToPageableListAsync<TestEntity, int>(null!, OrderDirectionEnum.Ascending, request, CancellationToken.None));
     }
 
     [Fact]
