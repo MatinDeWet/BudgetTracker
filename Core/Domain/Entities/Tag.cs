@@ -18,7 +18,7 @@ public class Tag : Entity<Guid>
         };
     }
 
-    public void UpdateName(string name)
+    public void Update(string name)
     {
         Name = name;
     }

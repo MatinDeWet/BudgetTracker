@@ -4,7 +4,7 @@ using Persistence.Common.Repository;
 using Persistence.Data.Context;
 
 namespace Persistence.Repositories.Command;
-public class TagCommandRepository : JudgedCommands<BudgetContext>, ITagCommandRepository
+internal sealed class TagCommandRepository : JudgedCommands<BudgetContext>, ITagCommandRepository
 {
     public TagCommandRepository(BudgetContext context, IIdentityInfo info, IEnumerable<IProtected> protection) : base(context, info, protection)
     {

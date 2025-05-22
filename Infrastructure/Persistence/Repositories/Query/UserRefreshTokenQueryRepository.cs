@@ -2,12 +2,11 @@
 using Application.Repositories.Query;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Persistence.Common.Repository;
 using Persistence.Data.Context;
 
 namespace Persistence.Repositories.Query;
-public class UserRefreshTokenQueryRepository : JudgedQueries<BudgetContext>, IUserRefreshTokenQueryRepository
+internal sealed class UserRefreshTokenQueryRepository : JudgedQueries<BudgetContext>, IUserRefreshTokenQueryRepository
 {
 
     public UserRefreshTokenQueryRepository(BudgetContext context, IIdentityInfo info, IEnumerable<IProtected> protection) : base(context, info, protection)

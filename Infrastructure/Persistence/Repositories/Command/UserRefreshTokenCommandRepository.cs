@@ -5,7 +5,7 @@ using Persistence.Common.Repository;
 using Persistence.Data.Context;
 
 namespace Persistence.Repositories.Command;
-public class UserRefreshTokenCommandRepository : JudgedCommands<BudgetContext>, IUserRefreshTokenCommandRepository
+internal sealed class UserRefreshTokenCommandRepository : JudgedCommands<BudgetContext>, IUserRefreshTokenCommandRepository
 {
     public UserRefreshTokenCommandRepository(BudgetContext context, IIdentityInfo info, IEnumerable<IProtected> protection) : base(context, info, protection)
     {

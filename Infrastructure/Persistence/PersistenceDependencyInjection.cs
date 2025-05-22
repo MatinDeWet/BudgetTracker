@@ -15,13 +15,13 @@ public static class PersistenceDependencyInjection
     {
         services.Scan(scan => scan
             .FromAssemblies(assemplyPointer.Assembly)
-            .AddClasses((classes) => classes.AssignableToAny(typeof(ISecureQuery), typeof(ISecureCommand)))
+            .AddClasses((classes) => classes.AssignableToAny(typeof(ISecureQuery), typeof(ISecureCommand)), publicOnly: false)
             .AsSelfWithInterfaces()
             .WithScopedLifetime());
 
         services.Scan(scan => scan
             .FromAssemblies(assemplyPointer.Assembly)
-            .AddClasses((classes) => classes.AssignableToAny(typeof(IProtected)))
+            .AddClasses((classes) => classes.AssignableToAny(typeof(IProtected)), publicOnly: false)
             .AsSelfWithInterfaces()
             .WithScopedLifetime());
 

@@ -3,7 +3,7 @@ using Persistence.Common.Repository;
 using Persistence.Data.Context;
 
 namespace Persistence.Locks;
-public class UserLock(BudgetContext context) : Lock<User>
+internal sealed class UserLock(BudgetContext context) : Lock<User>
 {
     public override async Task<bool> HasAccess(User obj, int identityId, RepositoryOperationEnum operation, CancellationToken cancellationToken)
     {

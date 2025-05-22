@@ -5,7 +5,7 @@ using Persistence.Common.Repository;
 using Persistence.Data.Context;
 
 namespace Persistence.Repositories.Query;
-public class TagQueryRepository : JudgedQueries<BudgetContext>, ITagQueryRepository
+internal sealed class TagQueryRepository : JudgedQueries<BudgetContext>, ITagQueryRepository
 {
     public TagQueryRepository(BudgetContext context, IIdentityInfo info, IEnumerable<IProtected> protection) : base(context, info, protection)
     {

@@ -9,7 +9,7 @@ public class DeleteTagEndpoint(Application.Common.Messaging.ICommandHandler<Dele
 {
     public override void Configure()
     {
-        Delete("tag/delete/{Id}");
+        Delete("tag/{Id}");
     }
 
     public override async Task HandleAsync(DeleteTagRequest req, CancellationToken ct)

@@ -21,7 +21,7 @@ internal sealed class GetTagByIdHandler(ITagQueryRepository repo) : IQueryHandle
 
         if (tag is null)
         {
-            return Result<GetTagByIdResponse>.NotFound();
+            return Result.NotFound();
         }
 
         return tag;

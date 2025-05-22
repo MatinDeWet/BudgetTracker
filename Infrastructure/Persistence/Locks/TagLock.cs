@@ -3,7 +3,7 @@ using Persistence.Common.Repository;
 using Persistence.Data.Context;
 
 namespace Persistence.Locks;
-public class TagLock(BudgetContext context) : Lock<Tag>
+internal sealed class TagLock(BudgetContext context) : Lock<Tag>
 {
     public override async Task<bool> HasAccess(Tag obj, int identityId, RepositoryOperationEnum operation, CancellationToken cancellationToken)
     {

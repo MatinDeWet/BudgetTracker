@@ -6,7 +6,7 @@ using FastEndpoints;
 
 namespace API.Endpoints.TagEndpoints.SearchTag;
 
-public class SearchTagEndpoint(Application.Common.Messaging.IQueryHandler<SearchTagRequest, PageableResponse<SearchTagResponse>> handler) : Endpoint<SearchTagRequest, SearchTagResponse>
+public class SearchTagEndpoint(Application.Common.Messaging.IQueryHandler<SearchTagRequest, PageableResponse<SearchTagResponse>> handler) : Endpoint<SearchTagRequest, PageableResponse<SearchTagResponse>>
 {
     public override void Configure()
     {

@@ -19,7 +19,7 @@ internal sealed class UpdateTagHandler(ITagQueryRepository queryRepo, ITagComman
             return Result.NotFound();
         }
 
-        tag.UpdateName(command.Name);
+        tag.Update(command.Name);
 
         await commandRepo.UpdateAsync(tag, true, cancellationToken);
 
