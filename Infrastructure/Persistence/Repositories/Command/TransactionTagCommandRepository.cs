@@ -4,7 +4,7 @@ using Persistence.Common.Repository;
 using Persistence.Data.Context;
 
 namespace Persistence.Repositories.Command;
-internal sealed class TransactionTagCommandRepository : JudgedCommands<BudgetContext>, ITransactionCommandRepository
+internal sealed class TransactionTagCommandRepository : JudgedCommands<BudgetContext>, ITransactionTagCommandRepository
 {
     public TransactionTagCommandRepository(BudgetContext context, IIdentityInfo info, IEnumerable<IProtected> protection) : base(context, info, protection)
     {

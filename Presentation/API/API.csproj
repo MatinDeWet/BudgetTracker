@@ -36,4 +36,8 @@
     <ProjectReference Include="..\..\Infrastructure\Persistence\Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Endpoints\TransactionEndpoints\UntagTransaction\" />
+  </ItemGroup>
+
 </Project>

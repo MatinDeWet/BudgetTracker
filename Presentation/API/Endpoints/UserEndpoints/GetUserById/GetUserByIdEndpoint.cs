@@ -9,7 +9,7 @@ public class GetUserByIdEndpoint(Application.Common.Messaging.IQueryHandler<GetU
 {
     public override void Configure()
     {
-        Get("/transaction/{Id}");
+        Get("/user/{Id}");
     }
 
     public override async Task HandleAsync(GetUserByIdRequest req, CancellationToken ct)
