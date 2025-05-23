@@ -16,6 +16,8 @@ public class Transaction : Aggregate<Guid>
 
     public DateTime Date { get; private set; }
 
+    public virtual ICollection<TransactionTag> Tags { get; set; } = new HashSet<TransactionTag>();
+
 
     public static Transaction Create(Guid accountId, string description, decimal amount, DateTime date)
     {

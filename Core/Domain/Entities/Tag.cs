@@ -8,6 +8,8 @@ public class Tag : Entity<Guid>
 
     public string Name { get; private set; } = null!;
 
+    public virtual ICollection<TransactionTag> Transactions { get; set; } = new HashSet<TransactionTag>();
+
     public static Tag Create(int userId, string name)
     {
         return new Tag
