@@ -1,0 +1,29 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+
+        </div>
+        <div class="col">
+            <form>
+                <h2>Login</h2>
+                <div class="mb-3">
+                    <label for="emailinput" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="emailinput">
+                </div>
+                <div class="mb-3">
+                    <label for="passwordinput" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="passwordinput">
+                </div>
+                <div class="mb-3">
+                    <label for="passwordinput" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="passwordinput">
+                </div>
+                <button type="submit" class="btn btn-primary me-3">Login</button>
+                <a class="btn btn-secondary" [routerLink]="['/auth','register']">Register</a>
+            </form>
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+</div>
