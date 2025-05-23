@@ -4,7 +4,7 @@ using Ardalis.Result;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.UserFeatures.GetUserById;
-internal class GetUserByIdHandler(IUserQueryRepository repo) : IQueryHandler<GetUserByIdRequest, GetUserByIdResponse>
+internal sealed class GetUserByIdHandler(IUserQueryRepository repo) : IQueryHandler<GetUserByIdRequest, GetUserByIdResponse>
 {
     public async Task<Result<GetUserByIdResponse>> Handle(GetUserByIdRequest query, CancellationToken cancellationToken)
     {
