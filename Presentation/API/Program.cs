@@ -21,6 +21,13 @@ public static class Program
         builder.Services.AddIdentityPrepration();
         builder.Services.AddIdentitySupport();
 
+        builder.Services.AddCors(options => 
+            options.AddPolicy("AllowAngularApp", policy => 
+                policy.WithOrigins("http://localhost:4200")
+                      .AllowAnyHeader()
+                      .AllowAnyMethod()));
+
+
         builder.Services.AddDatabase(builder.Configuration, builder.Environment.IsDevelopment() || builder.Environment.IsStaging());
         builder.Services.AddSecuredRepositories(typeof(IPersistencePointer));
 
@@ -39,10 +46,27 @@ public static class Program
 
         app.UseSerilogSupport();
 
+        app.UseCors("AllowAngularApp");
+
         app.UseAuthentication()
            .UseAuthorization()
-           .UseFastEndpoints(c => c.Endpoints.Configurator = ep => ep.Options(b => b.AddEndpointFilter<IdentityInfoFilter>()))
-           .UseSwaggerGen();
+           .UseFastEndpoints(c =>
+           {
+               c.Endpoints.Configurator = ep => ep.Options(b => b.AddEndpointFilter<IdentityInfoFilter>());
+               c.Endpoints.ShortNames = true;
+               c.Endpoints.NameGenerator = ctx =>
+               {
+                   if (ctx.EndpointType.Name.EndsWith("Endpoint", StringComparison.InvariantCulture))
+                   {
+                       return ctx.EndpointType.Name[..^"Endpoint".Length];
+                   }
+                   else
+                   {
+                       return ctx.EndpointType.Name;
+                   }
+               };
+           })
+           .UseSwaggerGen(uiConfig: u => u.ShowOperationIDs());
 
         ApplyDbMigrations(app);
 

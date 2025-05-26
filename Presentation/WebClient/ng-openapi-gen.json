@@ -1,0 +1,12 @@
+{
+  "input": "src/app/api/spec/swagger.json",
+  "output": "src/app/api/generation",
+  "ignoreUnusedModels": false,
+  "operationIdMode": "simplified",
+  "servicePrefix": "",
+  "serviceSuffix": "Service",
+  "modelPrefix": "",
+  "modelSuffix": "",
+  "templateDir": null,
+  "skipJsonSuffix": false
+}

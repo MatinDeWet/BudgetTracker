@@ -28,7 +28,6 @@ public class AuthRegisterEndpoint(UserManager<ApplicationUser> userManager) : En
         if (result is null)
         {
             ThrowError("User creation failed!");
-            return;
         }
 
         if (!result.Succeeded)
@@ -37,7 +36,10 @@ public class AuthRegisterEndpoint(UserManager<ApplicationUser> userManager) : En
             {
                 AddError(error.Description);
             }
-            return;
+
+            ThrowIfAnyErrors();
         }
+
+        ThrowIfAnyErrors();
     }
 }

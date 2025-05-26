@@ -4,21 +4,24 @@
 
         </div>
         <div class="col">
-            <form>
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
                 <h2>Login</h2>
                 <div class="mb-3">
-                    <label for="emailinput" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="emailinput">
+                    <label for="email" class="form-label">Email address</label>
+                    <input id="email" name="email" formControlName="email" type="email" class="form-control">
                 </div>
                 <div class="mb-3">
-                    <label for="passwordinput" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="passwordinput">
+                    <label for="password" class="form-label">Password</label>
+                    <input id="password" name="password" formControlName="password" type="password" class="form-control">
                 </div>
-                <div class="mb-3">
-                    <label for="passwordinput" class="form-label">Confirm Password</label>
-                    <input type="password" class="form-control" id="passwordinput">
-                </div>
-                <button type="submit" class="btn btn-primary me-3">Login</button>
+
+                @if (errorMessage()) {
+                    <div class="alert alert-danger">
+                    {{ errorMessage() }}
+                    </div>
+                }
+
+                <button type="submit" class="btn btn-primary me-3" [disabled]="form.invalid" [class.disabled]="form.invalid">{{ isSubmitting() ? 'logging in...' : 'Login' }}</button>
                 <a class="btn btn-secondary" [routerLink]="['/auth','register']">Register</a>
             </form>
         </div>
