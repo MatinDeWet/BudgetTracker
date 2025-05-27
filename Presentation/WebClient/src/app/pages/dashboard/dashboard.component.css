@@ -1,0 +1,25 @@
+.card {
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.table th, .table td {
+  padding: 0.75rem 1rem;
+}
+
+.btn-group .btn {
+  margin: 0 0.25rem;
+}
+
+.bi {
+  vertical-align: -0.125em;
+}
+
+.form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
