@@ -2,6 +2,7 @@ import { computed, inject, Injectable, signal } from "@angular/core";
 import { Router } from "@angular/router";
 import { AuthService } from "../api/generation/services";
 import { Observable, tap } from "rxjs";
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({ providedIn: 'root' })
 export class AppAuthService{
@@ -43,7 +44,7 @@ export class AppAuthService{
     if (!token) {
       return false;
     }
-    
+
     return !this.isTokenExpired(token);
   }
 
@@ -52,35 +53,11 @@ export class AppAuthService{
   }
 
   private isTokenExpired(token: string): boolean {
-    try {
-      const payload = this.parseJwt(token);
-      if (!payload.exp) {
-        return false;
-      }
-      
-      const expirationDate = new Date(payload.exp * 1000);
-      return expirationDate < new Date();
-    } catch (error) {
-      console.error('Error parsing JWT token:', error);
-      return true;
-    }
-  }
-  
+    const jwtHelper = new JwtHelperService;
 
-  private parseJwt(token: string): any {
-    try {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(
-        window.atob(base64)
-          .split('')
-          .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-          .join('')
-      );
-      return JSON.parse(jsonPayload);
-    } catch (e) {
-      return null;
-    }
+    const IsExpired = jwtHelper.isTokenExpired(token);
+
+    return IsExpired;
   }
 
   public updateAuthState(): void {
@@ -93,13 +70,5 @@ export class AppAuthService{
     localStorage.removeItem('auth_user_id');
     this.updateAuthState();
     this.router.navigate(['/auth/login']);
-  }
-
-  public getUserInfo(): any {
-    const token = this.getToken();
-    if (!token) {
-      return null;
-    }
-    return this.parseJwt(token);
   }
 }
