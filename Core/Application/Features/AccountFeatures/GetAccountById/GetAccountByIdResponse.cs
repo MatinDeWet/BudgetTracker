@@ -7,5 +7,7 @@ public sealed record GetAccountByIdResponse
 
     public string Name { get; set; }
 
+    public decimal Balance { get; set; }
+
     public DateTimeOffset DateCreated { get; set; }
 }

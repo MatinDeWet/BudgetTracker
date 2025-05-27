@@ -1128,6 +1128,13 @@
           "direction": {
             "$ref": "#/components/schemas/TransactionDirectionEnum"
           },
+          "accountId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "accountName": {
+            "type": "string"
+          },
           "description": {
             "type": "string"
           },
@@ -1609,6 +1616,10 @@
           },
           "name": {
             "type": "string"
+          },
+          "balance": {
+            "type": "number",
+            "format": "decimal"
           }
         }
       },
@@ -1637,6 +1648,10 @@
           },
           "name": {
             "type": "string"
+          },
+          "balance": {
+            "type": "number",
+            "format": "decimal"
           },
           "dateCreated": {
             "type": "string",

@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
 import { AuthService } from '../../../api/generation/services';
+import { AppAuthService } from '../../../services/AppAuthService';
 
 function equalValues(controlName1: string, controlName2: string) {
   return (control: AbstractControl) => {
@@ -24,11 +25,12 @@ function equalValues(controlName1: string, controlName2: string) {
   styleUrl: './user-register.component.css'
 })
 export class UserRegisterComponent {
-  authService = inject(AuthService);
+  authService = inject(AppAuthService);
   router = inject(Router);
 
   isSubmitting = signal<boolean>(false);
   errorMessage = signal<string>('');
+  showPassword = false;
 
   form = new FormGroup({
     email: new FormControl('',{ validators:[Validators.required, Validators.email]}),
@@ -40,7 +42,7 @@ export class UserRegisterComponent {
       validators: [equalValues('password', 'confirmPassword')],
     }),
   });
-  
+
   onSubmit() {
     if (this.form.invalid) {
       return;
@@ -53,13 +55,7 @@ export class UserRegisterComponent {
     const password = this.form.controls.passwords.controls.password.value || '';
     const confirmPassword = this.form.controls.passwords.controls.confirmPassword.value || '';
 
-    this.authService.authRegister({
-      body: {
-        email: email,
-        password: password,
-        confirmPassword: confirmPassword
-      }
-    }).subscribe({
+    this.authService.register(email, password, confirmPassword).subscribe({
       next: () => {
         this.isSubmitting.set(false);
         this.form.reset();
@@ -67,7 +63,7 @@ export class UserRegisterComponent {
       },
       error: (error) => {
         this.isSubmitting.set(false);
-        this.errorMessage.set(error.error.message || 'Registration failed');
+        this.errorMessage.set(error.error?.message || 'Registration failed');
       }
     });
   }

@@ -1,0 +1,11 @@
+.input-group {
+  flex-wrap: nowrap;
+}
+
+.btn-group .btn {
+  padding: 0.375rem 1.5rem;
+}
+
+input[type="number"] {
+  text-align: right;
+}

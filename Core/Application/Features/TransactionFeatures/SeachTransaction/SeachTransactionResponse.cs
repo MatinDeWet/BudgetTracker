@@ -7,6 +7,10 @@ public sealed class SeachTransactionResponse
 
     public TransactionDirectionEnum Direction { get; set; }
 
+    public Guid AccountId { get; set; }
+
+    public string AccountName { get; set; } = null!;
+
     public string Description { get; set; } = null!;
 
     public decimal Amount { get; set; }

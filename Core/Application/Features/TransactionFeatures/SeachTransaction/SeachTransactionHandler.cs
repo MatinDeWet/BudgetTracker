@@ -45,6 +45,8 @@ internal sealed class SeachTransactionHandler(ITransactionQueryRepository repo) 
                 Id = x.Id,
                 Direction = x.Direction,
                 Description = x.Description,
+                AccountId = x.AccountId,
+                AccountName = x.Account.Name,
                 Amount = x.Amount,
                 Date = x.Date,
             })

@@ -15,6 +15,7 @@ internal sealed class GetAccountByIdHandler(IAccountQueryRepository repo) : IQue
                 Id = x.Id,
                 UserId = x.UserId,
                 Name = x.Name,
+                Balance = x.Balance,
                 DateCreated = x.DateCreated
             })
             .FirstOrDefaultAsync(cancellationToken);

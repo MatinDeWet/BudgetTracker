@@ -4,6 +4,8 @@
 
 import { TransactionDirectionEnum } from '../models/transaction-direction-enum';
 export interface SeachTransactionResponse {
+  accountId?: string;
+  accountName?: string;
   amount?: number;
   date?: string;
   description?: string;

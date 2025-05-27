@@ -12,7 +12,8 @@ internal sealed class SearchAccountHandler(IAccountQueryRepository repo) : IQuer
             .Select(x => new SearchAccountResponse
             {
                 Id = x.Id,
-                Name = x.Name
+                Name = x.Name,
+                Balance = x.Balance
             })
             .ToPageableListAsync(x => x.Name, OrderDirectionEnum.Ascending, query, cancellationToken);
 

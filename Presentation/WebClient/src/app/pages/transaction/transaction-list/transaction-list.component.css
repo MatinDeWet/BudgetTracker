@@ -1,0 +1,36 @@
+.table td, .table th {
+  vertical-align: middle;
+  padding: 0.6rem;
+}
+
+.table th {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.text-muted.small {
+  font-size: 0.8rem;
+  max-width: 70px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badge {
+  font-weight: 500;
+  padding: 0.4em 0.6em;
+}
+
+.pagination .page-link {
+  padding: 0.375rem 0.75rem;
+  min-width: 38px;
+  text-align: center;
+}
+
+.btn:focus, .page-link:focus {
+  box-shadow: none;
+}
+
+.card.shadow-sm {
+  border: none;
+}

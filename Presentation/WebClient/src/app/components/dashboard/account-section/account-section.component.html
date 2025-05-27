@@ -1,0 +1,66 @@
+<div class="card mb-4">
+  <div class="card-header d-flex justify-content-between align-items-center bg-white">
+    <h5 class="mb-0">Your Accounts</h5>
+    <div>
+      <a routerLink="/accounts" class="btn btn-sm btn-outline-secondary me-2">
+        View All
+      </a>
+      <button type="button" class="btn btn-sm btn-primary" (click)="openNewAccountModal()">
+        <i class="bi bi-plus-circle me-1"></i>New
+      </button>
+    </div>
+  </div>
+  <div class="card-body">
+    <!-- Loading state -->
+    @if (accountService.loading()) {
+      <div class="d-flex justify-content-center my-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading accounts...</span>
+        </div>
+      </div>
+    }
+
+    <!-- Error state -->
+    @if (accountService.error()) {
+      <div class="alert alert-danger" role="alert">
+        <i class="bi bi-exclamation-triangle me-2"></i>{{ accountService.error() }}
+      </div>
+    }
+
+    <!-- Accounts grid -->
+    @if (accountService.accounts().length > 0) {
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        @for (account of accountService.accounts(); track account.id) {
+          <div class="col">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title mb-2">{{ account.name || 'Unnamed Account' }}</h5>
+                <h4 class="mb-3">{{ account.balance | currency }}</h4>
+              </div>
+              <div class="card-footer bg-transparent border-top-0">
+                <a [routerLink]="['/accounts', account.id]" class="btn btn-outline-primary btn-sm w-100">
+                  View Details
+                </a>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }  
+    @if (accountService.accounts().length === 0 && !accountService.loading()) {
+    <div class="text-center py-4">
+      <i class="bi bi-credit-card display-4 text-muted mb-3"></i>
+      <h5>No accounts found</h5>
+      <p class="text-muted mb-3">Get started by creating your first account</p>
+      <button type="button" class="btn btn-primary" (click)="openNewAccountModal()">
+        <i class="bi bi-plus-circle me-2"></i>Create First Account
+      </button>
+    </div>
+  }
+  </div>
+</div>
+
+<app-new-account-modal 
+  [isVisible]="isNewAccountModalVisible()" 
+  (closeModal)="closeNewAccountModal()">
+</app-new-account-modal>
