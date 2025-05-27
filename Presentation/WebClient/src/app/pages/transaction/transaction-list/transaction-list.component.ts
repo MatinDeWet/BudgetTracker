@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, inject, input } from '@angular/core';
+import { Component, HostListener, OnInit, TemplateRef, effect, inject, input } from '@angular/core';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { AppTransactionService } from '../../../services/AppTransactionService';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -12,29 +12,49 @@ import { OrderDirectionEnum } from '../../../api/generation/models';
   templateUrl: './transaction-list.component.html',
   styleUrl: './transaction-list.component.css'
 })
-export class TransactionListComponent implements OnInit {
+export class TransactionListComponent {
   transactionService = inject(AppTransactionService);
   private modalService = inject(NgbModal);
 
-  accountId = input<string | undefined>(undefined);
+  accountId = input<string>('');
 
   Math = Math;
 
   transactionToDelete: any = null;
   
   pageSizes = [10, 20, 50, 100];
-  
-  ngOnInit(): void {
+
+  constructor() {
+    effect(() => {
+      const id = this.accountId();
+      console.log('TransactionList: Account ID changed to', id);
+      
+      this.transactionService.currentPage.set(1);
+      
+      this.transactionService.transactions.set([]);
+      
+      if (id) {
+        this.loadTransactions();
+      }
+    });
+  }
+
+  @HostListener('refresh-transactions')
+  refreshTransactions(): void {
+    console.log('Refreshing transactions');
     this.loadTransactions();
   }
   
   loadTransactions(): void {
+    const id = this.accountId();
+    if (!id) return;
+    
     this.transactionService.searchTransactions({
-      accountId: this.accountId(),
+      accountId: id,
       pageNumber: this.transactionService.currentPage(),
       pageSize: this.transactionService.pageSize(),
       orderBy: 'date',
-      orderDirection: OrderDirectionEnum.Ascending
+      orderDirection: OrderDirectionEnum.Descending
     });
   }
   

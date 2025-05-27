@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, signal } from '@angular/core';
+import { Component, effect, inject, input, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AppAccountService } from '../../../services/AppAccountService';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -14,7 +14,7 @@ import { NewTransactionModalComponent } from '../../../components/transaction/ne
   templateUrl: './account-detail.component.html',
   styleUrl: './account-detail.component.css'
 })
-export class AccountDetailComponent {
+export class AccountDetailComponent implements OnInit {
   id = input.required<string>();
   
   private router = inject(Router);
@@ -28,11 +28,9 @@ export class AccountDetailComponent {
     accountName: new FormControl('', { validators: [Validators.required] }),
     balance: new FormControl<number>(0, { validators: [Validators.required] })
   });
-  
-  constructor() {
-    effect(() => {
-      this.loadAccountDetails(this.id());
-    });
+
+  ngOnInit(): void {
+    this.loadAccountDetails(this.id());
   }
   
   loadAccountDetails(accountId: string): void {
@@ -87,9 +85,23 @@ export class AccountDetailComponent {
     }
   }
 
-  openNewTransactionModal(): void {
+openNewTransactionModal(): void {
+    const account = this.accountService.selectedAccount();
+    if (!account || !account.id) return;
+    
     const modalRef = this.modalService.open(NewTransactionModalComponent);
-    modalRef.componentInstance.accountId = this.accountService.selectedAccount()?.id;
-    modalRef.componentInstance.accountName = this.accountService.selectedAccount()?.name;
+    modalRef.componentInstance.accountId = account.id;
+    modalRef.componentInstance.accountName = account.name;
+
+    const accountId = account.id;
+    
+    modalRef.closed.subscribe(() => {
+      this.loadAccountDetails(accountId);
+      
+      const transactionListComponent = document.querySelector('app-transaction-list');
+      if (transactionListComponent) {
+        transactionListComponent.dispatchEvent(new CustomEvent('refresh-transactions'));
+      }
+    });
   }
 }
