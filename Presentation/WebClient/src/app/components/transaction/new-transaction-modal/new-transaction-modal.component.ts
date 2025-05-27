@@ -16,7 +16,7 @@ export class NewTransactionModalComponent implements OnInit {
   @Input() accountName: string = '';
 
   transactionForm!: FormGroup;
-  today = new Date().toISOString().split('T')[0]; // Today's date in YYYY-MM-DD format
+  today = new Date().toISOString().split('T')[0];
   
   private fb = inject(FormBuilder);
   public activeModal = inject(NgbActiveModal);
@@ -31,7 +31,7 @@ export class NewTransactionModalComponent implements OnInit {
       accountId: [this.accountId, Validators.required],
       description: ['', [Validators.required, Validators.maxLength(512)]],
       amount: [null, [Validators.required]],
-      isExpense: [true], // Default to expense
+      isExpense: [true],
       date: [this.today, Validators.required]
     });
   }
@@ -42,7 +42,6 @@ export class NewTransactionModalComponent implements OnInit {
 
   onSubmit(): void {
     if (this.transactionForm.invalid) {
-      // Mark all fields as touched to trigger validation messages
       Object.keys(this.transactionForm.controls).forEach(key => {
         const control = this.transactionForm.get(key);
         control?.markAsTouched();
@@ -52,7 +51,6 @@ export class NewTransactionModalComponent implements OnInit {
 
     const formData = this.transactionForm.value;
     
-    // Convert amount to negative if it's an expense
     let amount = Math.abs(parseFloat(formData.amount));
     if (formData.isExpense) {
       amount = -amount;

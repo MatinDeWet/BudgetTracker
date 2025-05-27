@@ -15,7 +15,6 @@ export class AccountListComponent implements OnInit{
   isNewAccountModalVisible = signal(false);
   
   ngOnInit(): void {
-    // Load accounts when component initializes
     this.loadAccounts();
   }
   
