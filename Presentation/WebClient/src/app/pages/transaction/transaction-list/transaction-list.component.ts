@@ -41,7 +41,7 @@ export class TransactionListComponent {
 
   @HostListener('refresh-transactions')
   refreshTransactions(): void {
-    console.log('Refreshing transactions');
+    console.log('Refreshing transactions for account:', this.accountId());
     this.loadTransactions();
   }
   

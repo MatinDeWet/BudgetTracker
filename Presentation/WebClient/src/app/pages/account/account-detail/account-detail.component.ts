@@ -85,7 +85,7 @@ export class AccountDetailComponent implements OnInit {
     }
   }
 
-openNewTransactionModal(): void {
+  openNewTransactionModal(): void {
     const account = this.accountService.selectedAccount();
     if (!account || !account.id) return;
     
@@ -100,7 +100,12 @@ openNewTransactionModal(): void {
       
       const transactionListComponent = document.querySelector('app-transaction-list');
       if (transactionListComponent) {
-        transactionListComponent.dispatchEvent(new CustomEvent('refresh-transactions'));
+        const transactionList = document.querySelector('app-transaction-list') as any;
+        if (transactionList && typeof transactionList.refreshTransactions === 'function') {
+          transactionList.refreshTransactions();
+        } else {
+          transactionListComponent.dispatchEvent(new CustomEvent('refresh-transactions'));
+        }
       }
     });
   }

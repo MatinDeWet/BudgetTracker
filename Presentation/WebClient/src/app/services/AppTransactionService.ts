@@ -11,19 +11,16 @@ export class AppTransactionService {
   private transactionService = inject(TransactionService);
   private router = inject(Router);
   
-  // State management with signals
-  transactions = signal<SeachTransactionResponse[]>([]); // Replace 'any' with the actual transaction response type
+  transactions = signal<SeachTransactionResponse[]>([]);
   selectedTransaction = signal<GetTransactionByIdResponse | null>(null);
   loading = signal<boolean>(false);
   error = signal<string | null>(null);
   
-  // Pagination and search state
   currentPage = signal<number>(1);
   pageSize = signal<number>(10);
   totalItems = signal<number>(0);
   totalPages = signal<number>(0);
   
-  // Computed values (derived state)
   totalAmount = computed(() => {
     return this.transactions().reduce((sum, tx) => sum + (tx.amount || 0), 0);
   });
@@ -36,7 +33,6 @@ export class AppTransactionService {
     });
   }
   
-  // Search transactions with optional filters
   searchTransactions(options: SeachTransactionRequest = {}) {
     this.loading.set(true);
     this.error.set(null);
@@ -69,7 +65,6 @@ export class AppTransactionService {
     });
   }
   
-  // Load a specific transaction
   loadTransaction(id: string) {
     this.loading.set(true);
     this.error.set(null);
@@ -86,33 +81,31 @@ export class AppTransactionService {
     });
   }
   
-  // Create a new transaction
   createTransaction(transaction: CreateTransactionRequest) {
-    this.loading.set(true);
-    this.error.set(null);
-    
-    this.transactionService.createTransaction({ body: transaction }).subscribe({
-      next: (response: CreateTransactionResponse) => {
-        // Refresh the transaction list
-        this.searchTransactions();
-        this.loading.set(false);
-        this.router.navigate(['/accounts', transaction.accountId]);
-      },
-      error: (error: HttpErrorResponse) => {
-        this.error.set(error.message || 'Failed to create transaction');
-        this.loading.set(false);
-      }
-    });
-  }
+  this.loading.set(true);
+  this.error.set(null);
   
-  // Update an existing transaction
+  this.transactionService.createTransaction({ body: transaction }).subscribe({
+    next: (response: CreateTransactionResponse) => {
+      this.searchTransactions({
+        accountId: transaction.accountId
+      });
+      this.loading.set(false);
+      this.router.navigate(['/accounts', transaction.accountId]);
+    },
+    error: (error: HttpErrorResponse) => {
+      this.error.set(error.message || 'Failed to create transaction');
+      this.loading.set(false);
+    }
+  });
+}
+  
   updateTransaction(transaction: UpdateTransactionRequest) {
     this.loading.set(true);
     this.error.set(null);
     
     this.transactionService.updateTransaction({ body: transaction }).subscribe({
       next: () => {
-        // Refresh the transaction list and selected transaction
         this.searchTransactions();
         if (transaction.id) {
           this.loadTransaction(transaction.id);
@@ -126,14 +119,12 @@ export class AppTransactionService {
     });
   }
   
-  // Delete a transaction
   deleteTransaction(id: string) {
     this.loading.set(true);
     this.error.set(null);
     
     this.transactionService.deleteTransaction({ id: id }).subscribe({
       next: () => {
-        // Remove transaction from state
         this.transactions.update(transactions => 
           transactions.filter(t => t.id !== id)
         );
@@ -141,7 +132,6 @@ export class AppTransactionService {
           this.selectedTransaction.set(null);
         }
         this.loading.set(false);
-        this.router.navigate(['/transactions']);
       },
       error: (error: HttpErrorResponse) => {
         this.error.set(error.message || 'Failed to delete transaction');
@@ -150,7 +140,6 @@ export class AppTransactionService {
     });
   }
   
-  // Add a tag to a transaction
   addTag(transactionId: string, tagId: string) {
     this.loading.set(true);
     this.error.set(null);
@@ -162,7 +151,6 @@ export class AppTransactionService {
       }
     }).subscribe({
       next: () => {
-        // Refresh the transaction if it's currently selected
         if (this.selectedTransaction()?.id === transactionId) {
           this.loadTransaction(transactionId);
         }
@@ -175,7 +163,6 @@ export class AppTransactionService {
     });
   }
   
-  // Remove a tag from a transaction
   removeTag(transactionId: string, tagId: string) {
     this.loading.set(true);
     this.error.set(null);
@@ -187,7 +174,6 @@ export class AppTransactionService {
       }
     }).subscribe({
       next: () => {
-        // Refresh the transaction if it's currently selected
         if (this.selectedTransaction()?.id === transactionId) {
           this.loadTransaction(transactionId);
         }
@@ -200,28 +186,24 @@ export class AppTransactionService {
     });
   }
   
-  // Navigate to next page
   nextPage(): void {
     if (this.currentPage() < this.totalPages()) {
       this.searchTransactions({ pageNumber: this.currentPage() + 1 });
     }
   }
   
-  // Navigate to previous page
   previousPage(): void {
     if (this.currentPage() > 1) {
       this.searchTransactions({ pageNumber: this.currentPage() - 1 });
     }
   }
   
-  // Go to specific page
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages()) {
       this.searchTransactions({ pageNumber: page });
     }
   }
   
-  // Clear all filters and reset search
   clearFilters(): void {
     this.searchTransactions({ pageNumber: 1 });
   }
